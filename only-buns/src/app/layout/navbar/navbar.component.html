@@ -1,0 +1,42 @@
+<nav>
+    <div class="logo">
+        <img src="assets/OnlyBunsLogoIcon.png" class="nav-image">
+    </div>
+
+      <!-- Links for unauthenticated users 
+      <ng-container *ngIf="!isAuthenticated">
+            <ul class="nav-icons">
+                <li><a routerLink="/register">Register</a></li>
+                <li><a routerLink="/login">Login</a></li>
+            </ul>
+      </ng-container>-->
+  
+      <!-- Links for registered users *ngIf="isAuthenticated && !isAdmin" -->
+    <ng-container >
+            <ul class="nav-icons">
+                <li><a routerLink="/"><i class="fas fa-home"></i></a></li>
+                <li><a routerLink="/trends"><i class="fas fa-search"></i></a></li>
+                <li><a routerLink="/chat"><i class="fas fa-comments"></i></a></li>
+            </ul>
+    </ng-container>
+  
+      <!-- Links for administrators
+      <ng-container *ngIf="isAdmin">
+            <ul class="nav-icons">
+                <li><a routerLink="/all-posts">All Posts</a></li>
+                <li><a routerLink="/user-analytics">User Analytics</a></li>
+                <li><a routerLink="/user-profiles">User Profiles</a></li>
+                <li><a (click)="logout()">Logout</a></li>
+            </ul>
+      </ng-container>-->
+
+    <!-- User icon with dropdown on the right side -->
+    <div class="user-menu">
+        <i class="fas fa-user-circle" (click)="toggleDropdown()"></i>
+        <div *ngIf="dropdownOpen" class="dropdown">
+            <a routerLink="/settings">Settings</a>
+            <a (click)="logout()">Logout</a>
+        </div>
+    </div>
+  </nav>
+  
