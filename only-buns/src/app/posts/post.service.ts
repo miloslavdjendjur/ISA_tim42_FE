@@ -12,9 +12,10 @@ export class PostService {
 
   constructor(private http: HttpClient) { }
 
-  createPost(postData: FormData): Observable<PostDTO> {
-    return this.http.post<PostDTO>(`${this.apiUrl}`, postData);
-  }
+  createPost(formData: FormData): Observable<any> {
+    return this.http.post(this.apiUrl, formData);
+  }  
+
   getAllPosts() : Observable<Post[]>{
     return this.http.get<Post[]>(this.apiUrl + "/all");
   }
