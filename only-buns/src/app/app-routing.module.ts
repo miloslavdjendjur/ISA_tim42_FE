@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegisterComponent } from './infrastructure/auth/register/register.component';
 import { HomeComponent } from './layout/home/home.component';
-import { PostFeedComponent } from './post/post-feed/post-feed.component';
+import { PostFeedComponent } from './posts/post-feed/post-feed.component';
 import { CreatePostComponent } from './posts/create-post/create-post.component';
 
 const routes: Routes = [
