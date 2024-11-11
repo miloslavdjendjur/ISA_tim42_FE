@@ -4,8 +4,8 @@ import { PostService } from '../../posts/post.service';
 
 @Component({
   selector: 'app-post-feed',
-  templateUrl: './post-feed.component.html',
-  styleUrl: './post-feed.component.css'
+  templateUrl: 'post-feed.component.html',
+  styleUrl: 'post-feed.component.css'
 })
 export class PostFeedComponent implements OnInit{
   posts: Post[] = [];

@@ -1,1 +1,18 @@
-<p>post-feed works!</p>
+<div class="create-post-container">
+    <h2>Kreiraj novi post</h2>
+    <form [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="file">Upload sliku zeca</label>
+        <input type="file" id="file" (change)="onFileChange($event)">
+        <img *ngIf="imagePreview" [src]="imagePreview" class="image-preview">
+      </div>
+  
+      <div>
+        <label for="description">Opis</label>
+        <input type="text" id="description" formControlName="description" placeholder="Unesite opis posta">
+      </div>
+  
+      <button type="submit" [disabled]="createPostForm.invalid">Kreiraj post</button>
+    </form>
+  </div>
+  
