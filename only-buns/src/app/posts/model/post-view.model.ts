@@ -1,4 +1,4 @@
-import { Comment } from "@angular/compiler";
+import { Comment } from "./comment.model";
 
 export interface Post {
     id: number;

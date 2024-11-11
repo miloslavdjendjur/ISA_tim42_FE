@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from '../../model/post.model';
-import { PostService } from '../../services/post.service';
+import { Post } from '../../posts/model/post-view.model';
+import { PostService } from '../../posts/post.service';
 
 @Component({
   selector: 'app-post-feed',
@@ -12,7 +12,15 @@ export class PostFeedComponent implements OnInit{
 
   constructor(private service: PostService) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.service.getAllPosts().subscribe({
+      next: (result: Post[]) =>{
+        this.posts = result;
+        console.log(result);
+      },
+      error:( err: any) =>{
+        console.log(err);
+      }
+    })
   }
 
 }
