@@ -51,4 +51,8 @@ export class AuthService {
     const userJson = localStorage.getItem('loggedInUser');
     return userJson ? JSON.parse(userJson) : null;
   }
+
+  activateAccount(token: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/activate?token=${token}`);
+  }
 }
