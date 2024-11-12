@@ -72,7 +72,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    width: 120px;
+    width: 200px;
   }
   
   .dropdown a {
@@ -85,6 +85,14 @@
   
   .dropdown a:hover {
     background-color: #f2f2f2;
+  }
+
+  .dropdown i{
+    font-size: 15px;
+  }
+
+  .dropdown i:hover {
+    color: #26ace3;
   }
   
   @media (max-width: 768px) {
