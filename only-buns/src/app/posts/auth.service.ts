@@ -18,17 +18,25 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';  // Update the URL if necessary
-  private loggedInUser = new BehaviorSubject<LoginResponse | null>(null);
+  private apiUrl = 'http://localhost:8080/api/auth';
   private loggedInUserSubject = new BehaviorSubject<LoginResponse | null>(null);
   public loggedInUser$ = this.loggedInUserSubject.asObservable();
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+    if (typeof window !== 'undefined') {
+      const userJson = localStorage.getItem('loggedInUser');
+      if (userJson) {
+        this.loggedInUserSubject.next(JSON.parse(userJson)); // Initialize from localStorage if available
+      }
+    }
+  }
+  
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(response => {
         localStorage.setItem('authToken', response.token);
-        localStorage.setItem('loggedInUser', JSON.stringify(response));  // Store user details in localStorage
+        localStorage.setItem('loggedInUser', JSON.stringify(response));
         this.loggedInUserSubject.next(response);
       })
     );
@@ -40,19 +48,17 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('authToken');
-    this.loggedInUser.next(null);
+    localStorage.removeItem('loggedInUser');
+    this.loggedInUserSubject.next(null);
   }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('authToken');
   }
 
+  // Now `getLoggedInUser` returns the latest value of `loggedInUserSubject`
   getLoggedInUser(): LoginResponse | null {
-    if (typeof window !== 'undefined' && localStorage.getItem('loggedInUser')) {
-      const userJson = localStorage.getItem('loggedInUser');
-      return userJson ? JSON.parse(userJson) : null;
-    }
-    return null;
+    return this.loggedInUserSubject.value;
   }
 
   activateAccount(token: string): Observable<any> {

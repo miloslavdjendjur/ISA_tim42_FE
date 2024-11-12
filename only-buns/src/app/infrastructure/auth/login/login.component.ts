@@ -19,6 +19,7 @@ export class LoginComponent {
       () => {
         const user = this.authService.getLoggedInUser();
         console.log('Logged in user:', user);
+        console.log(user?.id)
         this.router.navigate(['/']);  // Redirect to the home page or dashboard
       },
       error => {
