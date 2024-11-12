@@ -11,7 +11,7 @@ import { ActivationComponent } from './infrastructure/auth/activation/activation
 import { UsersShowComponent } from './users/users-show/users-show.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent }, 
+  { path: '', component: PostFeedComponent }, 
   { path: 'all-posts', component: PostFeedComponent},
   { path: 'create-post', component: CreatePostComponent },  
   { path: 'login', component: LoginComponent },
