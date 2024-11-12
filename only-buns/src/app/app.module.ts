@@ -15,6 +15,7 @@ import { ActivationComponent } from './infrastructure/auth/activation/activation
 import { HttpClientModule } from '@angular/common/http';
 import { PostFeedComponent } from './posts/post-feed/post-feed.component';
 import { CommonModule } from '@angular/common';
+import { UsersShowComponent } from './users/users-show/users-show.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { CommonModule } from '@angular/common';
     CreatePostComponent,
     LoginComponent,       
     RegisterComponent,
-    ActivationComponent
+    ActivationComponent,
+    UsersShowComponent
   ],
   imports: [
     BrowserModule,

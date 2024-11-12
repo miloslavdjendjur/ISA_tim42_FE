@@ -1,0 +1,12 @@
+<div class="users-container">
+    <h2>Lista registrovanih korisnika</h2>
+    <div class="user-card" *ngFor="let user of users">
+      <div class="user-info">
+        <p><strong>Ime i prezime:</strong> {{ user.fullName }}</p>
+        <p><strong>Email adresa:</strong> {{ user.email }}</p>
+        <p><strong>Broj objava:</strong> {{ user.postNumber }}</p>
+        <p><strong>Broj korisnika koje prati:</strong> {{ user.followsPeople }}</p>
+      </div>
+    </div>
+  </div>
+  

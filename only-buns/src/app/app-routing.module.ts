@@ -8,6 +8,7 @@ import { HomeComponent } from './layout/home/home.component';
 import { PostFeedComponent } from './posts/post-feed/post-feed.component';
 import { CreatePostComponent } from './posts/create-post/create-post.component';
 import { ActivationComponent } from './infrastructure/auth/activation/activation.component';
+import { UsersShowComponent } from './users/users-show/users-show.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, 
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'activate', component: ActivationComponent },
+  { path: 'all-users',component: UsersShowComponent},
   { path: '**', redirectTo: '' }
 ];
 
