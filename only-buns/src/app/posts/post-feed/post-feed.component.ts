@@ -31,18 +31,27 @@ export class PostFeedComponent implements OnInit {
     );
     this.service.getAllPosts().subscribe({
       next: (result: Post[]) => {
-        this.posts = result.sort((a, b) => {
-          const dateA = a.createdDate ? new Date(a.createdDate).getTime() : 0;
-          const dateB = b.createdDate ? new Date(b.createdDate).getTime() : 0;
-          return dateA - dateB;
-      });
-      
-        //console.log(result);
+          this.posts = result
+              .map(post => ({
+                  ...post,
+                  imagePath: this.getImagePath(post.imagePath)
+              }))
+              .sort((a, b) => {
+                  const dateA = a.createdDate ? new Date(a.createdDate).getTime() : 0;
+                  const dateB = b.createdDate ? new Date(b.createdDate).getTime() : 0;
+                  return dateA - dateB;
+              });
+          console.log('Posts with full image paths:', this.posts);
       },
       error: (err: any) => {
-        console.log(err);
+          console.error('Error fetching posts:', err);
       }
-    });
+  });
+  
+  }
+
+  getImagePath(imageUrl: string): string {
+    return `http://localhost:8080${imageUrl}`;
   }
 
   loadComments(postId: number): void {

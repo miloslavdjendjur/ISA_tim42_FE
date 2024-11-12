@@ -3,42 +3,43 @@
         <img src="assets/OnlyBunsLogoIcon.png" class="nav-image">
       </div>
 
-      <!-- Links for unauthenticated users 
       <ng-container *ngIf="!isAuthenticated">
-            <ul class="nav-icons">
+            <div class="center-nav-icons">
+              <ul class="nav-icons">
                 <li><a routerLink="/register">Register</a></li>
                 <li><a routerLink="/login">Login</a></li>
-            </ul>
-      </ng-container>-->
+              </ul>
+            </div>
+      </ng-container>
   
-      <!-- Links for registered users *ngIf="isAuthenticated && !isAdmin" -->
-      <div class="center-nav-icons">
+      <!-- *ngIf="isAuthenticated && !isAdmin" -->
+      <div class="center-nav-icons" *ngIf="isAuthenticated">
         <ul class="nav-icons">
           <li><a routerLink="/"><i class="fas fa-home"></i></a></li>
           <li><a routerLink="/trends"><i class="fa fa-compass" aria-hidden="true"></i></a></li>
-          <li><a routerLink="/create-post"><i class="fa fa-plus-square" aria-hidden="true"></i></a></li>
+          <li><a routerLink="/create-post"><i class="far fa-plus-square"></i></a></li>
           <li><a routerLink="/nearby"><i class="fa fa-map-marker" aria-hidden="true"></i></a></li>
           <li><a routerLink="/chat"><i class="fas fa-comments"></i></a></li>
         </ul>
       </div>
   
-      <!-- Links for administrators
       <ng-container *ngIf="isAdmin">
             <ul class="nav-icons">
                 <li><a routerLink="/all-posts">All Posts</a></li>
                 <li><a routerLink="/user-analytics">User Analytics</a></li>
                 <li><a routerLink="/user-profiles">User Profiles</a></li>
-                <li><a (click)="logout()">Logout</a></li>
             </ul>
-      </ng-container>-->
+      </ng-container>
 
     <!-- User icon with dropdown on the right side -->
     <div class="user-menu">
         <ul class="nav-icons">
           <li><i class="fas fa-user-circle" (click)="toggleDropdown()"></i>
             <div *ngIf="dropdownOpen" class="dropdown">
-              <a routerLink="/settings">Settings</a>
-              <a (click)="logout()">Logout</a>
+              <a routerLink="/settings" *ngIf="isAuthenticated">Settings</a>
+              <a (click)="isAuthenticated ? logout() : loginRedirect()">
+                {{ isAuthenticated ? 'Logout' : 'Login' }}
+              </a>              
             </div>
           </li>
         </ul>

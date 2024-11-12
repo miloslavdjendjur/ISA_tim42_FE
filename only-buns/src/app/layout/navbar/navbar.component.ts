@@ -9,18 +9,29 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   dropdownOpen = false;
+  isAuthenticated = false; 
+  isAdmin = false;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.authService.loggedInUser$.subscribe(user => {
+      this.isAuthenticated = !!user;
+    });
+  }
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
   logout() {
-    console.log('Logout clicked');  // Check if click works
-    this.authService.logout();  // Clear session
-    console.log('Navigating to login...');  // Confirm before navigation
-    this.router.navigateByUrl('/login');  // Redirect to login page
+    console.log('Logout clicked');  
+    this.authService.logout();
+    console.log('Navigating to login...');  
+    this.router.navigateByUrl('/login');  
   }
-  
+ 
+  loginRedirect() {
+    this.router.navigateByUrl('/login');
+  }
 }
