@@ -11,8 +11,11 @@ import { CreatePostComponent } from './posts/create-post/create-post.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegisterComponent } from './infrastructure/auth/register/register.component';
+import { ActivationComponent } from './infrastructure/auth/activation/activation.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PostFeedComponent } from './posts/post-feed/post-feed.component';
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { PostFeedComponent } from './posts/post-feed/post-feed.component';
     PostFeedComponent,
     CreatePostComponent,
     LoginComponent,       
-    RegisterComponent 
+    RegisterComponent,
+    ActivationComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,8 @@ import { PostFeedComponent } from './posts/post-feed/post-feed.component';
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [
     provideHttpClient(withFetch())

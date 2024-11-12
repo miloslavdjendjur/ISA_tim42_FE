@@ -1,0 +1,10 @@
+<div class="activation-container">
+  <div *ngIf="!isError; else errorTemplate">
+    <p class="success-message">{{ activationMessage }}</p>
+    <a routerLink="/login">Go to Login</a>
+  </div>
+
+  <ng-template #errorTemplate>
+    <p class="error-message">{{ activationMessage }}</p>
+  </ng-template>
+</div>
