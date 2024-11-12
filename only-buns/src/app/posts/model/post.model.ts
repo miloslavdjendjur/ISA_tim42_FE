@@ -5,5 +5,6 @@ export interface PostDTO {
     longitude: number;
     address: string;
     createdDate: Date;
+    userId: number;
   }
   

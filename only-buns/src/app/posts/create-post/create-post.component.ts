@@ -45,6 +45,7 @@ export class CreatePostComponent implements OnInit {
       }
 
       // Add optional fields with default values if they are not present
+      formData.append('userId', '2'); // CHANGE LATER WHEN MILOSLAV DOES HIS THING!!!
       formData.append('latitude', ''); // Leave empty; backend will use default if missing
       formData.append('longitude', ''); // Leave empty; backend will use default if missing
       formData.append('address', ''); // Leave empty; backend will use default if missing

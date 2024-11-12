@@ -39,19 +39,93 @@
   color: #444;
 }
 
-.post-comments ul {
-  list-style-type: none;
-  padding: 0;
+.comment-card {
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.comment-header strong {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment-time {
+  font-size: 0.8em;
+  color: #888;
+}
+
+.comment-text {
+  font-size: 0.9em;
+  color: #555;
   margin: 0;
 }
-
-.post-comments li {
-  margin-bottom: 5px;
-  padding: 5px;
-  border-bottom: 1px solid #eee;
+.delete-button {
+  margin-left: 300px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+}
+.like-button{
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.edit-button{
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+}
+.comment-button{
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+}
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.add-comment {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 
-.post-comments li strong {
-  color: #333;
-  margin-right: 5px;
+.comment-input {
+  flex-grow: 1;
+  padding: 8px;
+  margin-right: 10px;
+  margin-left: 20px;
+  border-radius: 5px;
+  width: 450px;
+  border: 1px solid #ddd;
+}
+
+.submit-comment-button {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-comment-button:hover {
+  background-color: #45a049;
 }

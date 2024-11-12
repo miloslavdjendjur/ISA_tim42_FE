@@ -6,5 +6,5 @@ export interface Post {
     imagePath: string;
     user_id: number;
     likes: number;
-    coments: Comment[];
+    comments?: Comment[];
 }
