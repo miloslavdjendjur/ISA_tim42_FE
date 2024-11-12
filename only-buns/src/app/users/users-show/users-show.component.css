@@ -25,7 +25,16 @@
     color: #555;
   }
   
-  .user-info strong {
+.user-info strong {
     color: #333;
+  }
+.search-container, .sort-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+.search-container input, .sort-container button {
+    margin-right: 10px;
   }
   

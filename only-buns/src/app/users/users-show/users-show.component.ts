@@ -6,31 +6,62 @@ import { AuthService } from '../../posts/auth.service';
 @Component({
   selector: 'app-users-show',
   templateUrl: './users-show.component.html',
-  styleUrl: './users-show.component.css'
+  styleUrls: ['./users-show.component.css']
 })
 export class UsersShowComponent implements OnInit {
-
   users: User[] = [];
   userId: number | null = null;
-  constructor(private service: UserService, private authService: AuthService){}
+  searchName: string = '';
+  searchEmail: string = '';
+  searchMinPosts?: number;
+  searchMaxPosts?: number;
+
+  constructor(private service: UserService, private authService: AuthService) {}
+
   ngOnInit(): void {
     const user = this.authService.getLoggedInUser();
-      if (user) {
-        this.userId = user.id;
-
-        this.service.getAllUsers(this.userId).subscribe({
-          next: (result : User[]) =>{
-            this.users = result;
-          },
-          error: (err: any) => {
-            console.log(err);
-          }
-        }) ;
-      }
-      else{
-        console.log("Nema ulogovanog usera");
-      }
-
+    if (user /*&& user.role === "ADMIN"*/) {
+      this.userId = user.id;
+      this.loadUsers();
+    } else {
+      console.log("No logged-in user with admin privileges.");
+    }
   }
 
+  loadUsers(): void {
+    if (this.userId) {
+      this.service.getAllUsers(this.userId).subscribe({
+        next: (result: User[]) => {
+          this.users = result;
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+    }
+  }
+
+  searchUsers(): void {
+    if (this.userId) {
+      this.service.filterUsers(this.userId, this.searchName, '', this.searchEmail, this.searchMinPosts, this.searchMaxPosts).subscribe({
+        next: (result: User[]) => {
+          this.users = result;
+        },
+        error: (err: any) => {
+          console.log("Error filtering users:", err);
+        }
+      });
+    }
+  }
+
+  sortUsers(field: keyof User, order: 'asc' | 'desc'): void {
+    this.users.sort((a, b) => {
+      const valA = a[field];
+      const valB = b[field];
+
+      if (valA < valB) return order === 'asc' ? -1 : 1;
+      if (valA > valB) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
 }

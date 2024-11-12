@@ -83,7 +83,7 @@ export class PostFeedComponent implements OnInit {
         const commentToAdd: Comment = {
           text: commentText,
           createdTime: new Date().toISOString(),
-          userId: -1,
+          userId: this.userId || -1,
           postId: postId,
           userName: this.userName
         };

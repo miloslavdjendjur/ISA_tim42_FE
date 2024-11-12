@@ -1,12 +1,27 @@
 <div class="users-container">
-    <h2>Lista registrovanih korisnika</h2>
-    <div class="user-card" *ngFor="let user of users">
+    <h2>Registered Users</h2>
+    
+    <div class="search-container">
+      <input type="text" placeholder="Search Name" [(ngModel)]="searchName" />
+      <input type="text" placeholder="Search Email" [(ngModel)]="searchEmail" />
+      <input type="number" placeholder="Min Posts" [(ngModel)]="searchMinPosts" />
+      <input type="number" placeholder="Max Posts" [(ngModel)]="searchMaxPosts" />
+      <button (click)="searchUsers()">Search</button>
+    </div>
+  
+    <div class="sort-container">
+      <button (click)="sortUsers('email', 'asc')">Sort by Email Asc</button>
+      <button (click)="sortUsers('email', 'desc')">Sort by Email Desc</button>
+      <button (click)="sortUsers('followsPeople', 'asc')">Sort by Follows Asc</button>
+      <button (click)="sortUsers('followsPeople', 'desc')">Sort by Follows Desc</button>
+    </div>
+  
+    <div *ngFor="let user of users" class="user-card">
       <div class="user-info">
-        <p><strong>Ime i prezime:</strong> {{ user.fullName }}</p>
-        <p><strong>Email adresa:</strong> {{ user.email }}</p>
-        <p><strong>Broj objava:</strong> {{ user.postNumber }}</p>
-        <p><strong>Broj korisnika koje prati:</strong> {{ user.followsPeople }}</p>
+        <p><strong>Name:</strong> {{ user.fullName }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Number of Posts:</strong> {{ user.postNumber }}</p>
+        <p><strong>Followers:</strong> {{ user.followsPeople }}</p>
       </div>
     </div>
   </div>
-  

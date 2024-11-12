@@ -18,13 +18,13 @@
     <br>
     <!-- *ngIf="userId == post.user_id"-->
     <div class="post-actions">
-      <button class="edit-button">
+      <button *ngIf="userId === post.user_id" class="edit-button">
         <i class="fa fa-edit" aria-hidden="true"></i> edit
       </button>
-      <button class="delete-button" (click)="deletePost(post.id)">
+      <button *ngIf="userId === post.user_id" class="delete-button" (click)="deletePost(post.id)">
         <i class="fa fa-window-close" aria-hidden="true"></i> delete
       </button>
-      <button class="like-button" (click)="toggleLike(post.id)">
+      <button *ngIf="userId != null" class="like-button" (click)="toggleLike(post.id)">
         <i class="fa fa-thumbs-up" aria-hidden="true"></i> like
       </button>
     </div>
