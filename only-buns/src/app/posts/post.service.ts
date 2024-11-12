@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PostDTO } from './model/post.model';
 import { Post } from './model/post-view.model';
 import { Comment } from './model/comment.model';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,9 @@ export class PostService {
   }
   addComment(comment : Comment) : Observable<Post>{
     return this.http.put<Post>(this.apiUrl + "/add-comment",comment);
+  }
+  toggleLike(postId: number, userId: number): Observable<{ message: string, likesCount: number }> {
+    const params = new HttpParams().set("userId", userId.toString());
+    return this.http.put<{ message: string, likesCount: number }>(`${this.apiUrl}/like/${postId}`, null, { params });
   }
 }

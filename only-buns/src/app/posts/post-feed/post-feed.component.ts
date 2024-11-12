@@ -104,4 +104,22 @@ export class PostFeedComponent implements OnInit {
       console.log('Komentar ne može biti prazan');
     }
   }
+  toggleLike(postId: number): void {
+    if (this.userId) {
+        this.service.toggleLike(postId, -1).subscribe({
+            next: (response: { message: string, likesCount: number }) => {
+                console.log("Server response:", response.message);
+                const post = this.posts.find(p => p.id === postId);
+                if (post) {
+                    post.likes = response.likesCount;
+                }
+            },
+            error: (err) => {
+                console.error("Error toggling like:", err);
+            }
+        });
+    } else {
+        console.log("USER IS NOT LOGGED");
+    }
+  }
 }

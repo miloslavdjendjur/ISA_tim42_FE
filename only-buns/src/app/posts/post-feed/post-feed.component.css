@@ -71,11 +71,17 @@
   margin: 0;
 }
 .delete-button {
-  margin-left: 500px;
+  margin-left: 300px;
   right: 10px;
   background: none;
   border: none;
   color: #ff4d4d;
+  cursor: pointer;
+}
+.like-button{
+  right: 10px;
+  background: none;
+  border: none;
   cursor: pointer;
 }
 .edit-button{
