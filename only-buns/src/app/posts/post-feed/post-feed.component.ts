@@ -14,24 +14,29 @@ export class PostFeedComponent implements OnInit {
   showComments: { [key: number]: boolean } = {};
   userId: number | null = null;
   userName: string = "PERO";
+  currentUser: any;
   constructor(private service: PostService, private authService: AuthService) {}
   
 
   ngOnInit(): void {
-    if (typeof window !== 'undefined') {
-      const user = this.authService.getLoggedInUser();
-      if (user) {
-        this.userId = user.id;
-        this.userName = user.username;
-        //console.log(this.userId);
+    this.authService.loggedInUser$.subscribe(
+      user => {
+        this.currentUser = user;
+        this.userId = this.currentUser.id;
+        this.userName = this.currentUser.userName;
+      },
+      error => {
+        console.error('Failed to fetch logged in user:', error);
       }
-      else{
-        console.log("Nema ulogovanog usera");
-      }
-    }
+    );
     this.service.getAllPosts().subscribe({
       next: (result: Post[]) => {
-        this.posts = result;
+        this.posts = result.sort((a, b) => {
+          const dateA = a.createdDate ? new Date(a.createdDate).getTime() : 0;
+          const dateB = b.createdDate ? new Date(b.createdDate).getTime() : 0;
+          return dateA - dateB;
+      });
+      
         //console.log(result);
       },
       error: (err: any) => {
@@ -119,6 +124,7 @@ export class PostFeedComponent implements OnInit {
             }
         });
     } else {
+        alert('please log in');
         console.log("USER IS NOT LOGGED");
     }
   }
