@@ -1,7 +1,7 @@
 <nav>
     <div class="logo">
         <img src="assets/OnlyBunsLogoIcon.png" class="nav-image">
-    </div>
+      </div>
 
       <!-- Links for unauthenticated users 
       <ng-container *ngIf="!isAuthenticated">
@@ -12,13 +12,15 @@
       </ng-container>-->
   
       <!-- Links for registered users *ngIf="isAuthenticated && !isAdmin" -->
-    <ng-container >
-            <ul class="nav-icons">
-                <li><a routerLink="/"><i class="fas fa-home"></i></a></li>
-                <li><a routerLink="/trends"><i class="fas fa-search"></i></a></li>
-                <li><a routerLink="/chat"><i class="fas fa-comments"></i></a></li>
-            </ul>
-    </ng-container>
+      <div class="center-nav-icons">
+        <ul class="nav-icons">
+          <li><a routerLink="/"><i class="fas fa-home"></i></a></li>
+          <li><a routerLink="/trends"><i class="fa fa-compass" aria-hidden="true"></i></a></li>
+          <li><a routerLink="/create-post"><i class="fa fa-plus-square" aria-hidden="true"></i></a></li>
+          <li><a routerLink="/nearby"><i class="fa fa-map-marker" aria-hidden="true"></i></a></li>
+          <li><a routerLink="/chat"><i class="fas fa-comments"></i></a></li>
+        </ul>
+      </div>
   
       <!-- Links for administrators
       <ng-container *ngIf="isAdmin">
@@ -32,11 +34,14 @@
 
     <!-- User icon with dropdown on the right side -->
     <div class="user-menu">
-        <i class="fas fa-user-circle" (click)="toggleDropdown()"></i>
-        <div *ngIf="dropdownOpen" class="dropdown">
-            <a routerLink="/settings">Settings</a>
-            <a (click)="logout()">Logout</a>
-        </div>
-    </div>
+        <ul class="nav-icons">
+          <li><i class="fas fa-user-circle" (click)="toggleDropdown()"></i>
+            <div *ngIf="dropdownOpen" class="dropdown">
+              <a routerLink="/settings">Settings</a>
+              <a (click)="logout()">Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
   </nav>
   

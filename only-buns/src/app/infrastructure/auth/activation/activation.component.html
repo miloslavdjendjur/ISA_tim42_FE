@@ -1,10 +1,13 @@
 <div class="activation-container">
-  <div *ngIf="!isError; else errorTemplate">
+  <div class="message-box" *ngIf="!isError; else errorTemplate">
     <p class="success-message">{{ activationMessage }}</p>
-    <a routerLink="/login">Go to Login</a>
+    <a routerLink="/login" class="button">Go to Login</a>
   </div>
 
   <ng-template #errorTemplate>
-    <p class="error-message">{{ activationMessage }}</p>
+    <div class="message-box">
+      <p class="error-message">{{ activationMessage }}</p>
+      <a routerLink="/login" class="button">Try Again</a>
+    </div>
   </ng-template>
 </div>
