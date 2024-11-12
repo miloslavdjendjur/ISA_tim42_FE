@@ -1,25 +1,44 @@
 <div class="post-feed">
-    <div *ngFor="let post of posts" class="post">
-      <div class="post-image">
-       <!-- <img [src]="post.imagePath" alt="Post Image" /> -->
+  <div *ngFor="let post of posts" class="post">
+    <div class="post-image">
+     <!-- <img [src]="post.imagePath" alt="Post Image" />-->
+    </div>
+    
+    <div class="post-description">
+      <h3>{{ post.description }}</h3>
+    </div>
+    
+    <div class="post-likes">
+      <span>{{ post.likes }} Likes</span>
+    </div>
+
+    <button class="comment-button" (click)="loadComments(post.id)">
+      <i class="fa fa-comment" aria-hidden="true"></i> comments
+    </button>
+    <br>
+    <!-- *ngIf="userId == post.user_id"-->
+    <div class="post-actions">
+      <button class="edit-button">
+        <i class="fa fa-edit" aria-hidden="true"></i> edit
+      </button>
+      <button class="delete-button" (click)="deletePost(post.id)">
+        <i class="fa fa-window-close" aria-hidden="true"></i> delete
+      </button>
+    </div>
+
+    <div class="post-comments" *ngIf="showComments[post.id] && post.comments">
+      <h4>Comments</h4>
+      <div *ngFor="let comment of post.comments" class="comment-card">
+        <div class="comment-header">
+          <strong>{{ comment.userName }}</strong>
+          <span class="comment-time">{{ comment.createdTime | date:'short' }}</span>
+        </div>
+        <p class="comment-text">{{ comment.text }}</p>
       </div>
-      
-      <div class="post-description">
-        <h3>{{ post.description }}</h3>
-      </div>
-      
-      <div class="post-likes">
-        <span>{{ post.likes }} Likes</span>
-      </div>
-  
-      <!-- Prikaz komentara -->
-      <div class="post-comments">
-        <h4>Comments</h4>
-        <ul>
-          <li *ngFor="let comment of post.coments">
-            <strong>{{ comment.userId }}:</strong> {{ comment.text }}
-          </li>
-        </ul>
+      <div *ngIf="userId != null">
+        <input type="text" #commentInput placeholder="Unesi komentar" class="comment-input"/>
+        <button (click)="submitComment(post.id, commentInput)" class="submit-comment-button">Post</button>
       </div>
     </div>
   </div>
+</div>

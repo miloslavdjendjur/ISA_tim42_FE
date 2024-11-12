@@ -48,7 +48,10 @@ export class AuthService {
   }
 
   getLoggedInUser(): LoginResponse | null {
-    const userJson = localStorage.getItem('loggedInUser');
-    return userJson ? JSON.parse(userJson) : null;
+    if (typeof window !== 'undefined' && localStorage.getItem('loggedInUser')) {
+      const userJson = localStorage.getItem('loggedInUser');
+      return userJson ? JSON.parse(userJson) : null;
+    }
+    return null;
   }
 }
