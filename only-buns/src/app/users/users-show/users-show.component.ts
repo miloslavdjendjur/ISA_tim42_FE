@@ -15,16 +15,18 @@ export class UsersShowComponent implements OnInit {
   searchEmail: string = '';
   searchMinPosts?: number;
   searchMaxPosts?: number;
+  adminLogged : boolean = false;
 
   constructor(private service: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
     const user = this.authService.getLoggedInUser();
-    if (user /*&& user.role === "ADMIN"*/) {
+    if (user && user.role === "ADMIN") {
+      this.adminLogged = true;
       this.userId = user.id;
       this.loadUsers();
     } else {
-      console.log("No logged-in user with admin privileges.");
+      this.adminLogged = false;
     }
   }
 

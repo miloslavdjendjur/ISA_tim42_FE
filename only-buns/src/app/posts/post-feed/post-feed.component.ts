@@ -19,16 +19,13 @@ export class PostFeedComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.authService.loggedInUser$.subscribe(
-      user => {
-        this.currentUser = user;
+    this.currentUser = this.authService.getLoggedInUser();
+      if (this.currentUser) {
         this.userId = this.currentUser.id;
-        this.userName = this.currentUser.userName;
-      },
-      error => {
-        console.error('Failed to fetch logged in user:', error);
+        this.userName = this.currentUser.username;
+      } else {
+        console.warn('Logged-in user is null');
       }
-    );
     this.service.getAllPosts().subscribe({
       next: (result: Post[]) => {
           this.posts = result
@@ -64,7 +61,9 @@ export class PostFeedComponent implements OnInit {
       next: (comments: Comment[]) => {
         const post = this.posts.find(p => p.id === postId);
         if (post) {
-          post.comments = comments;
+          post.comments = comments.sort((a, b) => {
+            return new Date(a.createdTime).getTime() - new Date(b.createdTime).getTime();
+          });
           this.showComments[postId] = true;
         }
       },
@@ -101,7 +100,8 @@ export class PostFeedComponent implements OnInit {
           postId: postId,
           userName: this.userName
         };
-      
+        //const localTime = new Date(commentToAdd.createdTime).toLocaleString();
+        //console.log(localTime);
       this.service.addComment(commentToAdd).subscribe({
         next: () => {
           const post = this.posts.find(p => p.id === postId);
@@ -120,7 +120,7 @@ export class PostFeedComponent implements OnInit {
   }
   toggleLike(postId: number): void {
     if (this.userId) {
-        this.service.toggleLike(postId, -1).subscribe({
+        this.service.toggleLike(postId, this.userId).subscribe({
             next: (response: { message: string, likesCount: number }) => {
                 console.log("Server response:", response.message);
                 const post = this.posts.find(p => p.id === postId);

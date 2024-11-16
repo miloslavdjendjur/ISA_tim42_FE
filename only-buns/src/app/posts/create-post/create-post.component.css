@@ -1,6 +1,6 @@
 /* Container styling */
 .create-post-container {
-  max-width: 450px;
+  max-width: 850px;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
@@ -74,4 +74,10 @@
 
 .create-post-container button:hover:not(:disabled) {
   background-color: #3073c1;
+}
+
+.map-field {
+  display: block;
+  max-width: 500px;
+  margin-right: 10%;
 }

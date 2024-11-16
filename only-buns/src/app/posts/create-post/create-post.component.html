@@ -11,6 +11,12 @@
         <label for="description">Opis</label>
         <input type="text" id="description" formControlName="description" placeholder="Unesite opis posta">
       </div>
+      <div>
+        <label>Izaberite lokaciju na mapi</label>
+          <br>
+          <app-map class="map-field" (locationSelected)="onLocationSelected($event)"></app-map>
+      </div>
+      <br>
   
       <button type="submit" [disabled]="createPostForm.invalid">Kreiraj post</button>
     </form>

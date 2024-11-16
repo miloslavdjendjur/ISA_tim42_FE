@@ -15,6 +15,7 @@ export class CreatePostComponent implements OnInit {
   userId: number | null = null;
   userName: string = "PERO";
   currentUser: any;
+  locationSelected: { lat: number; lng: number } | null = null;
 
   constructor(private fb: FormBuilder, private postService: PostService, private authService: AuthService,  private router: Router) {
     this.createPostForm = this.fb.group({
@@ -23,17 +24,13 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.loggedInUser$.subscribe(
-      user => {
-        this.currentUser = user;
-        this.userId = this.currentUser.id;
-        this.userName = this.currentUser.userName;
-        console.log('Logged in as: ', this.currentUser);
-      },
-      error => {
-        console.error('Failed to fetch logged in user:', error);
-      }
-    );
+    this.currentUser = this.authService.getLoggedInUser();
+    if (this.currentUser) {
+      this.userId = this.currentUser.id;
+      this.userName = this.currentUser.username;
+    } else {
+      console.warn('Logged-in user is null');
+    }
   }
 
   onFileChange(event: Event): void {
@@ -46,6 +43,10 @@ export class CreatePostComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     }
+  }
+  onLocationSelected(location: { lat: number; lng: number }) {
+    console.log('Odabrana lokacija:', location);
+    this.locationSelected = location;
   }
 
   onSubmit(): void {

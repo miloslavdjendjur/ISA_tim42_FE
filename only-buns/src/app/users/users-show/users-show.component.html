@@ -1,7 +1,8 @@
 <div class="users-container">
-    <h2>Registered Users</h2>
+    <h2 *ngIf="adminLogged === false">Nemate permisiju za ovu stranicu</h2>
+    <h2 *ngIf="adminLogged === true">Registered Users</h2>
     
-    <div class="search-container">
+    <div *ngIf="adminLogged === true" class="search-container">
       <input type="text" placeholder="Search Name" [(ngModel)]="searchName" />
       <input type="text" placeholder="Search Email" [(ngModel)]="searchEmail" />
       <input type="number" placeholder="Min Posts" [(ngModel)]="searchMinPosts" />
@@ -9,7 +10,7 @@
       <button (click)="searchUsers()">Search</button>
     </div>
   
-    <div class="sort-container">
+    <div *ngIf="adminLogged === true" class="sort-container">
       <button (click)="sortUsers('email', 'asc')">Sort by Email Asc</button>
       <button (click)="sortUsers('email', 'desc')">Sort by Email Desc</button>
       <button (click)="sortUsers('followsPeople', 'asc')">Sort by Follows Asc</button>
