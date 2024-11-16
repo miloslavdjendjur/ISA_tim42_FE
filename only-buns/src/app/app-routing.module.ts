@@ -9,7 +9,6 @@ import { PostFeedComponent } from './posts/post-feed/post-feed.component';
 import { CreatePostComponent } from './posts/create-post/create-post.component';
 import { ActivationComponent } from './infrastructure/auth/activation/activation.component';
 import { UsersShowComponent } from './users/users-show/users-show.component';
-import { MapComponent } from './layout/map/map.component';
 
 const routes: Routes = [
   { path: '', component: PostFeedComponent }, 
@@ -19,7 +18,6 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'activate', component: ActivationComponent },
   { path: 'all-users',component: UsersShowComponent},
-  { path: 'map',component: MapComponent},
   { path: '**', redirectTo: '' }
 ];
 
