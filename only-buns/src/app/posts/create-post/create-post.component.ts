@@ -50,38 +50,33 @@ export class CreatePostComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.createPostForm.valid && this.userId) { 
-      const formData = new FormData();
-      formData.append('description', this.createPostForm.get('description')?.value);
-  
-      const fileInput = document.getElementById('file') as HTMLInputElement;
-      if (fileInput.files && fileInput.files[0]) {
-        formData.append('file', fileInput.files[0]);
-      }
-  
-      formData.append('userId', this.userId.toString()); // Append userId
-  
-      // You can include these if needed, or let the backend handle defaults
-      formData.append('latitude', ''); 
-      formData.append('longitude', ''); 
-      formData.append('address', ''); 
-  
-      this.postService.createPost(formData).subscribe(
-        response => {
-          console.log('Post created successfully', response);
-          // Optionally reset the form or navigate to another page
-          this.createPostForm.reset(); 
-          this.imagePreview = null; 
-          this.router.navigate(['/']);
-        },
-        error => {
-          console.error('Error creating post', error);
-          // Handle errors, e.g., display an error message to the user
+    if (this.createPostForm.valid && this.userId && this.locationSelected) { 
+        const formData = new FormData();
+        formData.append('description', this.createPostForm.get('description')?.value);
+
+        const fileInput = document.getElementById('file') as HTMLInputElement;
+        if (fileInput.files && fileInput.files[0]) {
+            formData.append('file', fileInput.files[0]);
         }
-      );
+
+        formData.append('userId', this.userId.toString());
+        formData.append('latitude', this.locationSelected.lat.toString());
+        formData.append('longitude', this.locationSelected.lng.toString());
+        formData.append('address', 'Custom Address'); // Replace with actual address logic
+
+        this.postService.createPost(formData).subscribe(
+            response => {
+                console.log('Post created successfully', response);
+                this.createPostForm.reset(); 
+                this.imagePreview = null; 
+                this.router.navigate(['/']);
+            },
+            error => {
+                console.error('Error creating post', error);
+            }
+        );
     } else {
-      console.error('User ID is missing or form is invalid');
-      // Handle the case where userId is missing or form is invalid
+        console.error('User ID, location, or form is invalid');
     }
   }
 }
