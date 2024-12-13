@@ -1,0 +1,14 @@
+<div *ngIf="user; else errorTemplate">
+    <h2>{{ user.fullName }}'s Profile</h2>
+    <div class="profile-card">
+      <p><strong>ID:</strong> {{ user.id }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Number of Posts:</strong> {{ user.postNumber }}</p>
+      <p><strong>Follows People:</strong> {{ user.followsPeople }}</p>
+    </div>
+  </div>
+  
+  <ng-template #errorTemplate>
+    <p class="error">{{ errorMessage }}</p>
+  </ng-template>
+  

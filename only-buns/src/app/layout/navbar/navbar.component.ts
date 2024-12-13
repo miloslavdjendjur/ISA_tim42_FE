@@ -11,12 +11,15 @@ export class NavbarComponent {
   dropdownOpen = false;
   isAuthenticated = false; 
   isAdmin = false;
+  userId = 0
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.loggedInUser$.subscribe(user => {
       this.isAuthenticated = !!user;
+      if(user)
+        this.userId = user.id;
     });
   }
 
@@ -33,5 +36,9 @@ export class NavbarComponent {
  
   loginRedirect() {
     this.router.navigateByUrl('/login');
+  }
+
+  navigateToProfile(): void{
+    this.router.navigate([`/profile/${this.userId}`]);
   }
 }

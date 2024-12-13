@@ -27,5 +27,9 @@ export class UserService {
     };
 
     return this.http.post<User[]>(this.apiUrl + "/filter/" + adminId,filterCriteria);
-}
+  }
+
+  getShowUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/show/${id}`);
+  }
 }
