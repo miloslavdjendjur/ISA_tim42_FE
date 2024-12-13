@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from '../../posts/model/post-view.model';
+import { Post } from '../model/post-feed.model';
 import { PostService } from '../../posts/post.service';
 import { Comment } from '../model/comment.model';
 import { AuthService } from '../auth.service';
@@ -13,44 +13,58 @@ export class PostFeedComponent implements OnInit {
   posts: Post[] = [];
   showComments: { [key: number]: boolean } = {};
   userId: number | null = null;
-  userName: string = "PERO";
+  username: string = "default";
   currentUser: any;
-  constructor(private service: PostService, private authService: AuthService) {}
+
+  constructor(
+    private service: PostService,
+    private authService: AuthService) {}
   
 
-  ngOnInit(): void {
-    this.currentUser = this.authService.getLoggedInUser();
-      if (this.currentUser) {
-        this.userId = this.currentUser.id;
-        this.userName = this.currentUser.username;
-      } else {
-        console.warn('Logged-in user is null');
+    ngOnInit(): void {
+      const currentUser = this.authService.getLoggedInUser();
+      if (currentUser) {
+        this.userId = currentUser.id;
       }
-    this.service.getAllPosts().subscribe({
-      next: (result: Post[]) => {
-          this.posts = result
-              .map(post => ({
-                  ...post,
-                  imagePath: this.getImagePath(post.imagePath)
-              }))
-              .sort((a, b) => {
-                  const dateA = a.createdDate ? new Date(a.createdDate).getTime() : 0;
-                  const dateB = b.createdDate ? new Date(b.createdDate).getTime() : 0;
-                  return dateA - dateB;
-              });
-          console.log('Posts with full image paths:', this.posts);
-      },
-      error: (err: any) => {
-          console.error('Error fetching posts:', err);
-      }
-  });
   
-  }
+      this.getPosts(); 
+    }
 
-  getImagePath(imageUrl: string): string {
-    return `http://localhost:8080${imageUrl}`;
-  }
+    private getPosts(): void {
+      this.service.getAllPosts().subscribe({
+        next: (result: Post[]) => {
+          this.posts = this.processPosts(result);
+        },
+        error: err => console.error('Error fetching posts:', err)
+      });
+    }
+  
+    private processPosts(posts: Post[]): Post[] {
+      return posts
+        .map(post => ({
+          ...post,
+          imagePath: this.getImagePath(post.imagePath),
+          user: post.user || { 
+            username: 'Unknown',
+            profileImagePath: '/assets/images/default.jpg',
+          }
+        }))
+        .sort((a, b) => this.sortPosts(a, b));
+    }
 
+    private getImagePath(imageUrl: string): string {
+      return `http://localhost:8080${imageUrl}`;
+    }
+  
+    private sortPosts(a: Post, b: Post): number {
+      const dateA = a.createdDate ? new Date(a.createdDate).getTime() : 0;
+      const dateB = b.createdDate ? new Date(b.createdDate).getTime() : 0;
+      return dateB - dateA; 
+    }
+    
+
+
+  // LOAD COMMENTS
   loadComments(postId: number): void {
     if (this.showComments[postId]) {
       this.showComments[postId] = false;
@@ -72,6 +86,8 @@ export class PostFeedComponent implements OnInit {
       }
     });
   }
+
+  // DELETE POST
   deletePost(id: number): void {
     this.service.deletePost(id).subscribe({
       next: () => {
@@ -87,6 +103,8 @@ export class PostFeedComponent implements OnInit {
       }
     });
   }
+
+  // ADD COMMENT
   submitComment(postId: number, commentInput: HTMLInputElement): void {
     const commentText = commentInput.value.trim();
   
@@ -98,7 +116,7 @@ export class PostFeedComponent implements OnInit {
           createdTime: new Date().toISOString(),
           userId: this.userId || -1,
           postId: postId,
-          userName: this.userName
+          userName: this.username
         };
         //const localTime = new Date(commentToAdd.createdTime).toLocaleString();
         //console.log(localTime);
@@ -118,6 +136,8 @@ export class PostFeedComponent implements OnInit {
       console.log('Komentar ne može biti prazan');
     }
   }
+
+  // TOGGLE LIKE
   toggleLike(postId: number): void {
     if (this.userId) {
         this.service.toggleLike(postId, this.userId).subscribe({

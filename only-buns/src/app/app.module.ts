@@ -14,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { PostFeedComponent } from './posts/post-feed/post-feed.component';
 import { CommonModule } from '@angular/common';
 import { UsersShowComponent } from './users/users-show/users-show.component';
-import { HomeComponent } from './layout/home/home.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MapComponent } from './layout/map/map.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
@@ -23,7 +22,6 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     NavbarComponent,
     PostFeedComponent,
     CreatePostComponent,

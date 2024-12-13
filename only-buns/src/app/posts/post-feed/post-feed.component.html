@@ -1,4 +1,36 @@
-<div class="post-feed">
+<div class="post-container" *ngFor="let post of posts; let isLast = last">
+  <!-- Header Section -->
+  <div class="post-header">
+    <img
+      [src]="post.user.profileImagePath || '/assets/images/default.jpg'"
+      alt="Profile Image"
+      class="profile-image"
+    />
+    <span class="username">{{ post.user.username }}</span>
+  </div>
+
+  <!-- Image Section -->
+  <div class="post-image">
+    <img [src]="post.imagePath" alt="Post Image" />
+  </div>
+
+  <!-- Content Section -->
+  <div class="post-content">
+    <div class="post-likes">
+      <span>{{ post.likes }} likes</span>
+    </div>
+    <p class="post-description">{{ post.description }}</p>
+    <a href="#" class="view-comments">View all comments</a>
+  </div>
+
+  <!-- Horizontal Line -->
+  <hr *ngIf="!isLast" class="post-divider" />
+</div>
+
+
+
+
+<!-- <div class="post-feed">
   <div *ngFor="let post of posts" class="post">
     <div class="post-image">
      <img [src]="post.imagePath" alt="Post Image" />
@@ -16,7 +48,6 @@
       <i class="fa fa-comment" aria-hidden="true"></i> comments
     </button>
     <br>
-    <!-- *ngIf="userId == post.user_id"-->
     <div class="post-actions">
       <button *ngIf="userId === post.user_id" class="edit-button">
         <i class="fa fa-edit" aria-hidden="true"></i> edit
@@ -44,4 +75,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

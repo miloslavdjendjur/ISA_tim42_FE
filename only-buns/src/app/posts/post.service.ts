@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PostDTO } from './model/post.model';
-import { Post } from './model/post-view.model';
+import { Post } from './model/post-feed.model';
 import { Comment } from './model/comment.model';
 import { HttpParams } from '@angular/common/http';
 
