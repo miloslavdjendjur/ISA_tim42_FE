@@ -11,6 +11,7 @@ import { AuthService } from '../auth.service';
 })
 export class PostFeedComponent implements OnInit {
   posts: Post[] = [];
+  likedPosts: Set<number> = new Set<number>(); 
   showComments: { [key: number]: boolean } = {};
   userId: number | null = null;
   username: string = "default";
@@ -25,43 +26,45 @@ export class PostFeedComponent implements OnInit {
       const currentUser = this.authService.getLoggedInUser();
       if (currentUser) {
         this.userId = currentUser.id;
+        this.getPosts(this.userId); 
+      } else {
+        console.error('No logged-in user found');
       }
-  
-      this.getPosts(); 
-    }
-
-    private getPosts(): void {
-      this.service.getAllPosts().subscribe({
-        next: (result: Post[]) => {
-          this.posts = this.processPosts(result);
-        },
-        error: err => console.error('Error fetching posts:', err)
-      });
-    }
-  
-    private processPosts(posts: Post[]): Post[] {
-      return posts
-        .map(post => ({
-          ...post,
-          imagePath: this.getImagePath(post.imagePath),
-          user: post.user || { 
-            username: 'Unknown',
-            profileImagePath: '/assets/images/default.jpg',
-          }
-        }))
-        .sort((a, b) => this.sortPosts(a, b));
-    }
-
-    private getImagePath(imageUrl: string): string {
-      return `http://localhost:8080${imageUrl}`;
-    }
-  
-    private sortPosts(a: Post, b: Post): number {
-      const dateA = a.createdDate ? new Date(a.createdDate).getTime() : 0;
-      const dateB = b.createdDate ? new Date(b.createdDate).getTime() : 0;
-      return dateB - dateA; 
     }
     
+    getPosts(id: number): void {
+      this.service.getAllPosts(id).subscribe({
+          next: (posts) => {
+              const processedPosts = this.processPosts(posts);
+              this.posts = this.sortPosts(processedPosts); // Sort after processing
+              this.likedPosts = new Set(
+                  posts.filter(post => post.likedByUser).map(post => post.id)
+              ); // Initialize liked posts
+          },
+          error: (err) => console.error('Error fetching posts:', err),
+      });
+  }
+  
+  private processPosts(posts: Post[]): Post[] {
+      return posts.map(post => ({
+          ...post,
+          imagePath: this.getImagePath(post.imagePath), // Ensure imagePath is processed
+          username: post.username || "Unknown", // Use username directly from API
+      }));
+  }
+  
+  private sortPosts(posts: Post[]): Post[] {
+      return posts.sort((a, b) => {
+          const dateA = a.createdDate ? new Date(a.createdDate).getTime() : 0;
+          const dateB = b.createdDate ? new Date(b.createdDate).getTime() : 0;
+          return dateB - dateA; // Sort by descending date
+      });
+  }
+  
+  
+    private getImagePath(imageUrl: string): string {
+      return `http://localhost:8080${imageUrl}`;
+    }    
 
 
   // LOAD COMMENTS
@@ -139,22 +142,29 @@ export class PostFeedComponent implements OnInit {
 
   // TOGGLE LIKE
   toggleLike(postId: number): void {
-    if (this.userId) {
-        this.service.toggleLike(postId, this.userId).subscribe({
-            next: (response: { message: string, likesCount: number }) => {
-                console.log("Server response:", response.message);
-                const post = this.posts.find(p => p.id === postId);
-                if (post) {
-                    post.likes = response.likesCount;
-                }
-            },
-            error: (err) => {
-                console.error("Error toggling like:", err);
-            }
-        });
-    } else {
-        alert('please log in');
-        console.log("USER IS NOT LOGGED");
-    }
+    const isLiked = this.isPostLiked(postId);
+  
+    this.service.toggleLike(postId, this.userId!).subscribe({
+      next: (response) => {
+        const post = this.posts.find(p => p.id === postId);
+        if (post) {
+          post.likes = response.likesCount; // Update likes count
+          post.likedByUser = !isLiked; // Update likedByUser property
+  
+          if (isLiked) {
+            this.likedPosts.delete(postId); // Unlike the post
+          } else {
+            this.likedPosts.add(postId); // Like the post
+          }
+        }
+      },
+      error: (err) => console.error('Error toggling like:', err),
+    });
   }
+  
+
+  isPostLiked(postId: number): boolean {
+    return this.likedPosts.has(postId); 
+  }
+  
 }

@@ -1,29 +1,30 @@
 <div class="post-container" *ngFor="let post of posts; let isLast = last">
-  <!-- Header Section -->
   <div class="post-header">
-    <img
-      [src]="post.user.profileImagePath || '/assets/images/default.jpg'"
-      alt="Profile Image"
-      class="profile-image"
-    />
-    <span class="username">{{ post.user.username }}</span>
+    <img [src]="post.imagePath" alt="Profile Image" class="profile-image" /> <!-- Posle ćemo promeniti -->
+    <span class="username">{{ post.username }}</span>
+    <i class="fa fa-ellipsis-h kebab-menu" aria-hidden="true"></i>
   </div>
 
-  <!-- Image Section -->
   <div class="post-image">
     <img [src]="post.imagePath" alt="Post Image" />
   </div>
 
-  <!-- Content Section -->
   <div class="post-content">
-    <div class="post-likes">
-      <span>{{ post.likes }} likes</span>
+    <div class="post-actions">
+      <button class="interaction-button" (click)="toggleLike(post.id)">
+        <i class="fa fa-heart" [ngClass]="{'red': isPostLiked(post.id), 'regular': !isPostLiked(post.id)}" aria-hidden="true"></i>
+      </button>
+      <button class="interaction-button">
+        <i class="fa fa-comment regular" aria-hidden="true"></i>
+      </button>
     </div>
-    <p class="post-description">{{ post.description }}</p>
+    <div class="post-info">
+      <span class="likes-count">{{ post.likes }} likes</span>
+      <p class="post-description">{{ post.description }}</p>
+    </div>
     <a href="#" class="view-comments">View all comments</a>
   </div>
-
-  <!-- Horizontal Line -->
+  
   <hr *ngIf="!isLast" class="post-divider" />
 </div>
 

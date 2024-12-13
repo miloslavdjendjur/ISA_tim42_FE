@@ -5,8 +5,10 @@ export interface Post {
     id: number;
     description: string;
     imagePath: string;
-    user: user;
+    userId: number | null; 
+    username: string;
     likes: number;
+    likedByUser?: boolean;
     comments?: Comment[];
     createdDate?: Date;
 }

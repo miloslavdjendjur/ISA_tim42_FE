@@ -17,9 +17,12 @@ export class PostService {
     return this.http.post(this.apiUrl, formData);
   }  
 
-  getAllPosts() : Observable<Post[]>{
-    return this.http.get<Post[]>(this.apiUrl + "/all");
-  }
+  getAllPosts(userId: number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.apiUrl}/all`, {
+      params: { userId: userId.toString() }
+    });
+  }  
+
   getAllComments(id : number) : Observable<Comment[]>{
     return this.http.get<Comment[]>(this.apiUrl + "/all-comments/" + id);
   }
