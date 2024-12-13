@@ -34,11 +34,17 @@
       <span class="likes-count">{{ post.likes }} likes</span>
       <p class="post-description">{{ post.description }}</p>
     </div>
-    <a href="#" class="view-comments">View all comments</a>
+    <a (click)="openModal(post)" class="view-comments">View all comments</a>
   </div>
   
   <hr *ngIf="!isLast" class="post-divider" />
 </div>
+
+<app-post-modal
+  *ngIf="selectedPost"
+  [post]="selectedPost"
+  (close)="closeModal()"
+></app-post-modal>
 
 
 

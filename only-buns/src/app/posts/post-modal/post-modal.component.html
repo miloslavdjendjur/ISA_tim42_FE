@@ -1,0 +1,22 @@
+<div class="modal-overlay" (click)="closeModal()"></div>
+<div class="modal-content">
+  <div class="modal-image">
+    <img [src]="post.imagePath" alt="Post Image" />
+  </div>
+  <div class="modal-details">
+    <div class="modal-header">
+      <img [src]="post.userProfileImage || 'assets/default.jpg'" class="user-profile" alt="User Profile" />
+      <span class="username">{{ post.username }}</span>
+    </div>
+    <p class="post-description">{{ post.description }}</p>
+    <div class="modal-comments">
+      <div class="comment" *ngFor="let comment of post.comments">
+        <span class="comment-username">{{ comment.username }}</span>: {{ comment.text }}
+      </div>
+    </div>
+    <div class="modal-actions">
+      <span class="likes">{{ post.likes }} likes</span>
+      <button class="add-comment-button" (click)="addComment()">Add Comment</button>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,7 @@ export class PostFeedComponent implements OnInit {
   likedPosts: Set<number> = new Set<number>(); 
   showComments: { [key: number]: boolean } = {};
   showDropdown: { [key: number]: boolean } = {};
+  selectedPost: Post | null = null;
   userId: number | null = null;
   username: string = "default";
   currentUser: any;
@@ -188,5 +189,14 @@ export class PostFeedComponent implements OnInit {
   // EDIT POST
   editPost(id: number): void {
     console.log("Dear Kalaba, add edit things here.");
+  }
+
+  // POST MODAL
+  openModal(post: Post): void {
+    this.selectedPost = post;
+  }
+
+  closeModal(): void {
+    this.selectedPost = null;
   }
 }
