@@ -5,7 +5,7 @@ export interface Post {
     id: number;
     description: string;
     imagePath: string;
-    userId: number | null; 
+    userId: number; 
     username: string;
     likes: number;
     likedByUser?: boolean;

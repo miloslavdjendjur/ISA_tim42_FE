@@ -1,9 +1,20 @@
 <div class="post-container" *ngFor="let post of posts; let isLast = last">
   <div class="post-header">
-    <img [src]="post.imagePath" alt="Profile Image" class="profile-image" /> <!-- Posle ćemo promeniti -->
+    <img [src]="post.imagePath" alt="Profile Image" class="profile-image" />
     <span class="username">{{ post.username }}</span>
-    <i class="fa fa-ellipsis-h kebab-menu" aria-hidden="true"></i>
+    
+    <div class="dropdown-container" style="position: relative;">
+      <i class="fa fa-ellipsis-h kebab-menu" (click)="toggleDropdown(post.id)" aria-hidden="true"></i>
+  
+      <!-- Dropdown Menu -->
+      <div class="dropdown-menu" *ngIf="showDropdown[post.id]">
+        <button class="dropdown-item" (click)="unfollow(post.userId)">Unfollow</button>
+        <button *ngIf="userId === post.userId" class="dropdown-item" (click)="deletePost(post.id)">Delete</button>
+        <button class="dropdown-item" (click)="closeDropdown(post.id)">Cancel</button>
+      </div>
+    </div>
   </div>
+  
 
   <div class="post-image">
     <img [src]="post.imagePath" alt="Post Image" />

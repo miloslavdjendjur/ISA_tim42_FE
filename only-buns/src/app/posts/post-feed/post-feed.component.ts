@@ -13,6 +13,7 @@ export class PostFeedComponent implements OnInit {
   posts: Post[] = [];
   likedPosts: Set<number> = new Set<number>(); 
   showComments: { [key: number]: boolean } = {};
+  showDropdown: { [key: number]: boolean } = {};
   userId: number | null = null;
   username: string = "default";
   currentUser: any;
@@ -90,22 +91,7 @@ export class PostFeedComponent implements OnInit {
     });
   }
 
-  // DELETE POST
-  deletePost(id: number): void {
-    this.service.deletePost(id).subscribe({
-      next: () => {
-        const index = this.posts.findIndex(post => post.id === id);
   
-        if (index !== -1) {
-          this.posts.splice(index, 1);
-          //console.log(`Post with ID ${id} deleted successfully`);
-        }
-      },
-      error: (error) => {
-        console.error('Error deleting post:', error);
-      }
-    });
-  }
 
   // ADD COMMENT
   submitComment(postId: number, commentInput: HTMLInputElement): void {
@@ -167,4 +153,36 @@ export class PostFeedComponent implements OnInit {
     return this.likedPosts.has(postId); 
   }
   
+  // TOGGLE DROPDOWN
+  toggleDropdown(postId: number): void {
+    this.showDropdown[postId] = !this.showDropdown[postId];
+  }
+
+  closeDropdown(postId: number): void {
+    this.showDropdown[postId] = false;
+  }
+
+  unfollow(userId: number): void {
+    // REMINDER: do this later when following and unfollowing exists.
+    console.log(`Unfollowing user with ID ${userId}`);
+    this.closeDropdown(userId);
+  }
+
+  // DELETE POST
+  deletePost(id: number): void {
+    this.service.deletePost(id).subscribe({
+      next: () => {
+        const index = this.posts.findIndex(post => post.id === id);
+  
+        if (index !== -1) {
+          this.posts.splice(index, 1);
+          //console.log(`Post with ID ${id} deleted successfully`);
+        }
+      },
+      error: (error) => {
+        console.error('Error deleting post:', error);
+      }
+    });
+  }
+
 }
