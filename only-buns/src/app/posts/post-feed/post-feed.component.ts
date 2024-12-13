@@ -185,4 +185,8 @@ export class PostFeedComponent implements OnInit {
     });
   }
 
+  // EDIT POST
+  editPost(id: number): void {
+    console.log("Dear Kalaba, add edit things here.");
+  }
 }

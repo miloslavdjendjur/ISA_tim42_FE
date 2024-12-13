@@ -9,6 +9,7 @@
       <!-- Dropdown Menu -->
       <div class="dropdown-menu" *ngIf="showDropdown[post.id]">
         <button class="dropdown-item" (click)="unfollow(post.userId)">Unfollow</button>
+        <button *ngIf="userId === post.userId" class="dropdown-item" (click)="editPost(post.id)">Edit</button>
         <button *ngIf="userId === post.userId" class="dropdown-item" (click)="deletePost(post.id)">Delete</button>
         <button class="dropdown-item" (click)="closeDropdown(post.id)">Cancel</button>
       </div>
