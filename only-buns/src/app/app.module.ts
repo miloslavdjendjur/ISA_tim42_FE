@@ -18,6 +18,7 @@ import { HomeComponent } from './layout/home/home.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MapComponent } from './layout/map/map.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { ShowAllUsersComponent } from './users/show-all-users/show-all-users.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     ActivationComponent,
     UsersShowComponent,
     MapComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ShowAllUsersComponent
   ],
   imports: [
     BrowserModule,
