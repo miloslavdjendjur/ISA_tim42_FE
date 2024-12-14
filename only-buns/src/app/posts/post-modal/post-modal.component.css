@@ -179,15 +179,18 @@
     color: #cc0000;
     padding: 15px;
     border-radius: 5px;
-    width: 90%; 
+    width: 90%;
+    max-width: 400px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 20px; 
+    margin: 20px auto; /* Center the box horizontally */
     display: flex;
-    justify-content: space-between;
-    height: 20px;
-    align-items: center; 
+    justify-content: space-between; /* Space between text and close button */
+    align-items: center; /* Vertically center content */
+    text-align: left; /* Ensure the text aligns to the left */
     position: relative;
   }
+  
+  
   
   .close-button {
     background: none;
