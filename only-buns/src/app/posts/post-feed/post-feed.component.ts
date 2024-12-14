@@ -3,6 +3,8 @@ import { Post } from '../model/post-feed.model';
 import { PostService } from '../../posts/post.service';
 import { Comment } from '../model/comment.model';
 import { AuthService } from '../auth.service';
+import { UserService } from '../../users/user.service';
+import { User } from '../../users/model/user.model';
 
 @Component({
   selector: 'app-post-feed',
@@ -18,20 +20,23 @@ export class PostFeedComponent implements OnInit {
   userId: number | null = null;
   username: string = "default";
   currentUser: any;
+  users: User[] = [];
 
   constructor(
     private service: PostService,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private userService: UserService) {}
   
 
     ngOnInit(): void {
       const currentUser = this.authService.getLoggedInUser();
       if (currentUser) {
         this.userId = currentUser.id;
-        this.getPosts(this.userId); 
+        this.getPosts(this.userId);
       } else {
         console.error('No logged-in user found');
       }
+      
     }
     
     getPosts(id: number): void {
@@ -64,12 +69,14 @@ export class PostFeedComponent implements OnInit {
   }
   
   
-    private getImagePath(imageUrl: string): string {
-      return `http://localhost:8080${imageUrl}`;
-    }    
+  private getImagePath(imageUrl: string): string {
+    return `http://localhost:8080${imageUrl}`;
+  }    
 
-
- 
+  // Comments
+  commentCount(comments?: Comment[]): number {
+    return comments ? comments.length : 0;
+  }
 
   // TOGGLE LIKE
   toggleLike(postId: number): void {
@@ -142,4 +149,39 @@ export class PostFeedComponent implements OnInit {
   closeModal(): void {
     this.selectedPost = null;
   }
+
+  // FOLLOW
+  toggleFollowUser(userIdToFollow: number): void {
+    if (this.userId !== null) {
+      this.userService.followUserById(userIdToFollow, this.userId).subscribe({
+        next: () => {
+          // Update the UI: Dynamically toggle the follow state
+          this.posts = this.posts.map(post => {
+            if (post.userId === userIdToFollow) {
+              this.toggleDropdown(post.id);
+              return {
+                ...post,
+                isFollowedByCurrentUser: !this.isUserFollowed(userIdToFollow),
+              };
+            }
+            this.toggleDropdown(post.id);
+            return post;
+          });
+          console.log(`Toggled follow status for user with ID: ${userIdToFollow}`);
+        },
+        error: (err: any) => {
+          console.error('Error toggling follow status:', err);
+        },
+      });
+    } else {
+      console.error('User ID is null; cannot follow/unfollow.');
+    }
+    
+  }
+  
+  isUserFollowed(userId: number): boolean {
+    return this.posts.some(post => post.userId === userId && post.isFollowedByCurrentUser);
+  }
+  
+  
 }

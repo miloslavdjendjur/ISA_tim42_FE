@@ -11,4 +11,5 @@ export interface Post {
     likedByUser?: boolean;
     comments?: Comment[];
     createdDate?: Date;
+    isFollowedByCurrentUser?: boolean;
 }

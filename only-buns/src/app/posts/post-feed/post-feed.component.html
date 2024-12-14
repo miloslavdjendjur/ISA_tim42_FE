@@ -1,16 +1,20 @@
 <div class="post-container" *ngFor="let post of posts; let isLast = last">
   <!-- Header -->
   <div class="post-header">
-    <div class="username-and-picture">
+    <div class="username-and-picture" [routerLink]="['/profile', post.userId]">
       <img [src]="post.imagePath" alt="Profile Image" class="profile-image" />
-      <p class="username">{{ post.username }}</p>
+      <p class="username">{{ post.username }} </p> 
+      <p> • </p>
+      <p class="post-created"> {{ post.createdDate | date: 'short'}} </p>
     </div>
     <div class="dropdown-container" style="position: relative;">
       <i class="fa fa-ellipsis-h kebab-menu" (click)="toggleDropdown(post.id)" aria-hidden="true"></i>
   
       <!-- Dropdown Menu -->
       <div class="dropdown-menu" *ngIf="showDropdown[post.id]">
-        <button class="dropdown-item" (click)="unfollow(post.userId)">Unfollow</button>
+        <button class="dropdown-item" (click)="toggleFollowUser(post.userId)">
+          {{ post.isFollowedByCurrentUser ? 'Unfollow' : 'Follow' }}
+        </button>        
         <button *ngIf="userId === post.userId" class="dropdown-item" (click)="editPost(post.id)">Edit</button>
         <button *ngIf="userId === post.userId" class="dropdown-item" (click)="deletePost(post.id)">Delete</button>
         <button class="dropdown-item" (click)="closeDropdown(post.id)">Cancel</button>
@@ -20,7 +24,7 @@
   
   <!-- Image -->
   <div class="post-image">
-    <img [src]="post.imagePath" alt="Post Image" />
+    <img [src]="post.imagePath" alt="Post Image" (click)="openModal(post)"/>
   </div>
 
   <!-- Content (actions, caption, like count etc) -->
@@ -33,11 +37,11 @@
         <i class="fa fa-comment regular" aria-hidden="true"></i>
       </button>
     </div>
-    <div class="post-info">
-      <span class="likes-count">{{ post.likes }} likes</span>
-      <p class="post-description">{{ post.description }}</p>
-    </div>
-    <a (click)="openModal(post)" class="view-comments">View all comments</a>
+    <span class="likes-count">{{ post.likes }} likes</span>
+    <p class="post-description"><b> {{post.username}} </b> {{ post.description }}</p>
+    <a (click)="openModal(post)" class="view-comments">
+      View all comments <!--  View all {{ commentCount(post.comments) }} comments - može da piše, ali će biti 0 sve dok ne kliknemo jednom. To je zato što nemam posebnu backend metodu koja učitava broj komentara samo. Ne želim da učitavam komentare sve samo da bih ih izbrojao. Tako da neka ne bude broj komentara -->
+    </a>
   </div>
   
   <hr *ngIf="!isLast" class="post-divider" />

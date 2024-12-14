@@ -4,17 +4,19 @@
     <img [src]="post.imagePath" alt="Post Image" />
   </div>
   <div class="modal-details">
-    <div class="modal-header">
+    <div class="modal-header" [routerLink]="['/profile', post.userId]">
       <img [src]="post.userProfileImage || 'assets/default.jpg'" class="user-profile" alt="User Profile" />
-      <span class="username">{{ post.username }}</span>
+      <p class="username">{{ post.username }}</p>
+      <p class="dot"> • </p>
+      <p class="post-created"> {{ post.createdDate | date: 'short'}} </p>
     </div>
     <p class="post-description">{{ post.description }}</p>
 
     <div class="modal-comments">
       <div class="comment" *ngFor="let comment of post.comments">
-        <img [src]="comment.profileImagePath" class="comment-profile" alt="Profile Image" />
+        <img [src]="comment.profileImagePath" class="comment-profile" alt="Profile Image" [routerLink]="['/profile', comment.userId]"/>
         <div class="comment-details">
-          <span class="comment-username">{{ comment.username }}</span>
+          <span class="comment-username" [routerLink]="['/profile', comment.userId]">{{ comment.username }}</span>
           <span class="comment-text">{{ comment.text }}</span>
           <span class="comment-time">{{ comment.createdTime | date: 'short' }}</span>
         </div>
@@ -24,11 +26,10 @@
 
     <!-- Move the error message here -->
     <div *ngIf="errorMessage" class="error-popup">
-      <div class="error-popup-header">
-        <span>{{ errorMessage }}</span>
-        <button class="close-button" (click)="clearError()">×</button>
-      </div>
+      <span>{{ errorMessage }}</span>
+      <button class="close-button" (click)="clearError()">×</button>
     </div>
+    
 
     <div class="modal-actions">
       <div class="post-actions">

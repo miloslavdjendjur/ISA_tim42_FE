@@ -19,6 +19,10 @@ export class UserService {
   followUser(userToFollow: User,userThatFollows : number) : Observable<User>{
     return this.http.put<User>(this.apiUrl + "/followUser/" + userThatFollows,userToFollow);
   }
+  followUserById(userToFollow: number, userThatFollows: number): Observable<User> {
+    return this.http.put<User>(
+      `${this.apiUrl}/followUserId/${userThatFollows}`, { userToFollow });
+  }
   filterUsers(adminId: number, name?: string, surname?: string, email?: string, minPosts?: number, maxPosts?: number): Observable<User[]> {
     const filterCriteria = {
         adminId: adminId,
