@@ -70,16 +70,38 @@
   .modal-comments {
     flex: 1;
     overflow-y: auto;
-    margin-bottom: 20px;
+    max-height: 300px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
   }
   
   .comment {
-    font-size: 14px;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .comment-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .comment-details {
+    display: flex;
+    flex-direction: column;
   }
   
   .comment-username {
     font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .comment-text {
+    font-size: 14px;
+    word-wrap: break-word;
   }
   
   .modal-actions {
@@ -91,19 +113,19 @@
   .modal-add-comment {
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    gap: 10px;
+    margin-bottom: 5px; 
   }
   
   .comment-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
+    flex: 1; 
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 10px;
   }
   
   .modal-add-comment button {
-    padding: 10px 20px;
+    padding: 8px 16px;
     background-color: #0095f6;
     color: white;
     border: none;
@@ -115,3 +137,36 @@
     background-color: #007acb;
   }
   
+
+  /* ERROR POPUP */
+  .error-popup {
+    background-color: #ffcccc;
+    color: #cc0000;
+    padding: 15px;
+    border-radius: 5px;
+    width: 90%; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px; 
+    display: flex;
+    justify-content: space-between;
+    height: 20px;
+    align-items: center; 
+    position: relative;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 1em;
+    font-weight: bold;
+    color: #cc0000;
+    cursor: pointer;
+    position: absolute; 
+    top: 50%; 
+    right: 15px;
+    transform: translateY(-50%); 
+  }
+  
+  .close-button:hover {
+    color: #a00000;
+  }

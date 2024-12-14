@@ -69,28 +69,7 @@ export class PostFeedComponent implements OnInit {
     }    
 
 
-  // LOAD COMMENTS
-  loadComments(postId: number): void {
-    if (this.showComments[postId]) {
-      this.showComments[postId] = false;
-      return;
-    }
-
-    this.service.getAllComments(postId).subscribe({
-      next: (comments: Comment[]) => {
-        const post = this.posts.find(p => p.id === postId);
-        if (post) {
-          post.comments = comments.sort((a, b) => {
-            return new Date(a.createdTime).getTime() - new Date(b.createdTime).getTime();
-          });
-          this.showComments[postId] = true;
-        }
-      },
-      error: (err: any) => {
-        console.log('Failed to load comments:', err);
-      }
-    });
-  }
+ 
 
   // TOGGLE LIKE
   toggleLike(postId: number): void {

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Post } from './model/post-feed.model';
 import { Comment } from './model/comment.model';
 import { HttpParams } from '@angular/common/http';
+import { user } from './model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +37,9 @@ export class PostService {
     const params = new HttpParams().set("userId", userId.toString());
     return this.http.put<{ message: string, likesCount: number }>(`${this.apiUrl}/like/${postId}`, null, { params });
   }
+
+  getUserById(userId: number): Observable<user> {
+    return this.http.get<user>(`${this.apiUrl}/users/show/${userId}`);
+  }
+  
 }

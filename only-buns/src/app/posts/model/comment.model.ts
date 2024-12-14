@@ -5,4 +5,5 @@ export interface Comment{
     userId: number;
     postId: number;
     username?: string;
+    profileImagePath?: string;
 }

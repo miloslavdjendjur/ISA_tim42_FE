@@ -7,4 +7,5 @@ export interface User{
     followsPeople: number;
     username: string;
     followerIds: number[];
+    profileImagePath: string;
 }

@@ -9,18 +9,28 @@
       <span class="username">{{ post.username }}</span>
     </div>
     <p class="post-description">{{ post.description }}</p>
+
     <div class="modal-comments">
       <div class="comment" *ngFor="let comment of post.comments">
-        <span class="comment-username">{{ comment.username }}</span>: {{ comment.text }}
-      </div>
-    </div>
-    <div class="modal-actions">
-      <span class="likes">{{ post.likes }} likes</span>
-      <div class="modal-comments">
-        <div class="comment" *ngFor="let comment of post.comments">
-          <span class="comment-username">{{ comment.username }}</span>: {{ comment.text }}
+        <img [src]="comment.profileImagePath" class="comment-profile" alt="Profile Image" />
+        <div class="comment-details">
+          <span class="comment-username">{{ comment.username }}</span>
+          <span class="comment-text">{{ comment.text }}</span>
         </div>
       </div>
+    </div>
+    
+
+    <!-- Move the error message here -->
+    <div *ngIf="errorMessage" class="error-popup">
+      <div class="error-popup-header">
+        <span>{{ errorMessage }}</span>
+        <button class="close-button" (click)="clearError()">×</button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <span class="likes">{{ post.likes }} likes</span>
       <div class="modal-add-comment">
         <input
           type="text"
@@ -28,9 +38,8 @@
           placeholder="Add a comment..."
           class="comment-input"
         />
-        <button (click)="submitComment(post.id, commentInput)">Post</button>
+        <button (click)="submitComment(post.id, commentInput)">Post</button>    
       </div>
-      
     </div>
   </div>
 </div>
