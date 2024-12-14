@@ -15,6 +15,7 @@ export class PostModalComponent {
   userId: number | null = null;
   username: string = "default";
   errorMessage: string | null = null; 
+  likedPosts: Set<number> = new Set<number>();
 
   constructor(private postService: PostService, private authService: AuthService,  private userService: UserService) {
     const currentUser = this.authService.getLoggedInUser();
@@ -27,6 +28,7 @@ export class PostModalComponent {
   ngOnInit(): void {
     if (this.post) {
       this.loadComments(this.post.id);
+      this.initializeLikeState(this.post.id);
     }
   }
 
@@ -34,7 +36,48 @@ export class PostModalComponent {
     this.close.emit();
   }
 
-  submitComment(postId: number, commentInput: HTMLInputElement): void {
+
+  // LIKES
+  isPostLiked(postId: number): boolean {
+    return this.likedPosts.has(postId);
+  }  
+  
+  // Initialize like state for the post
+  initializeLikeState(postId: number): void {
+    if (this.post.likedByUser) {
+      this.likedPosts.add(postId);
+    }
+  }
+  
+  // Toggle like for the post
+  toggleLike(postId: number): void {
+    const isLiked = this.isPostLiked(postId);
+  
+    this.postService.toggleLike(postId, this.userId!).subscribe({
+      next: (response) => {
+        this.post.likes = response.likesCount; // Update likes count
+        this.post.likedByUser = !isLiked; // Update likedByUser
+        if (isLiked) {
+          this.likedPosts.delete(postId);
+        } else {
+          this.likedPosts.add(postId);
+        }
+      },
+      error: (err) => console.error('Error toggling like:', err),
+    });
+  }
+  
+  // COMMENTS
+  openCommentInput(inputElement: HTMLInputElement | HTMLTextAreaElement): void {
+    inputElement.focus();
+  }
+
+  adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
+    textarea.style.height = 'auto'; // Reset height to calculate correctly
+    textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height based on content
+  }
+
+  submitComment(postId: number, commentInput: HTMLTextAreaElement): void {
     const commentText = commentInput.value.trim();
   
     if (commentText) {
@@ -43,7 +86,7 @@ export class PostModalComponent {
         createdTime: new Date().toISOString(),
         userId: this.userId || -1,
         postId: postId,
-        username: this.username
+        username: this.username,
       };
   
       this.postService.addComment(commentToAdd).subscribe({
@@ -66,12 +109,12 @@ export class PostModalComponent {
           } else {
             this.errorMessage = "Failed to submit comment. Please try again.";
           }
-        }
+        },
       });
     } else {
       console.log("Komentar ne može biti prazan");
     }
-  }
+  }  
   
   clearError(): void {
     this.errorMessage = null;

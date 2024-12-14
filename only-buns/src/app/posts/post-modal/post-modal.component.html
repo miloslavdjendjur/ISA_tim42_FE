@@ -1,5 +1,5 @@
 <div class="modal-overlay" (click)="closeModal()"></div>
-<div class="modal-content">
+  <div class="modal-content">
   <div class="modal-image">
     <img [src]="post.imagePath" alt="Post Image" />
   </div>
@@ -16,6 +16,7 @@
         <div class="comment-details">
           <span class="comment-username">{{ comment.username }}</span>
           <span class="comment-text">{{ comment.text }}</span>
+          <span class="comment-time">{{ comment.createdTime | date: 'short' }}</span>
         </div>
       </div>
     </div>
@@ -30,16 +31,25 @@
     </div>
 
     <div class="modal-actions">
-      <span class="likes">{{ post.likes }} likes</span>
-      <div class="modal-add-comment">
-        <input
-          type="text"
-          #commentInput
-          placeholder="Add a comment..."
-          class="comment-input"
-        />
-        <button (click)="submitComment(post.id, commentInput)">Post</button>    
+      <div class="post-actions">
+        <button class="interaction-button" (click)="toggleLike(post.id)">
+          <i class="fa fa-heart" [ngClass]="{'red': isPostLiked(post.id), 'regular': !isPostLiked(post.id)}" aria-hidden="true"></i>
+        </button>        
+        <button class="interaction-button" (click)="openCommentInput(commentInput)">
+          <i class="fa fa-comment regular" aria-hidden="true"></i>
+        </button>
       </div>
-    </div>
+      <div class="likes-count">{{ post.likes }} likes</div>
+      <div class="modal-add-comment">
+        <textarea
+        #commentInput
+        placeholder="Add a comment..."
+        class="comment-input"
+        rows="1"
+        (input)="adjustTextareaHeight(commentInput)"
+        (keydown.enter)="submitComment(post.id, commentInput); $event.preventDefault()"
+      ></textarea>
+      </div>
+    </div>    
   </div>
 </div>
