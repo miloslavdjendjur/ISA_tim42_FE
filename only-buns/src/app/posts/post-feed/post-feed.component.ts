@@ -92,41 +92,6 @@ export class PostFeedComponent implements OnInit {
     });
   }
 
-  
-
-  // ADD COMMENT
-  submitComment(postId: number, commentInput: HTMLInputElement): void {
-    const commentText = commentInput.value.trim();
-  
-    if (commentText) {
-      //const idOfUser = this.authService.getLoggedInUser()?.id;
-      
-        const commentToAdd: Comment = {
-          text: commentText,
-          createdTime: new Date().toISOString(),
-          userId: this.userId || -1,
-          postId: postId,
-          userName: this.username
-        };
-        //const localTime = new Date(commentToAdd.createdTime).toLocaleString();
-        //console.log(localTime);
-      this.service.addComment(commentToAdd).subscribe({
-        next: () => {
-          const post = this.posts.find(p => p.id === postId);
-          if (post && post.comments) {
-            post.comments.push(commentToAdd);
-          }
-          commentInput.value = '';
-        },
-        error: (err) => {
-          console.error('Failed to submit comment:', err);
-        }
-      });
-    } else {
-      console.log('Komentar ne može biti prazan');
-    }
-  }
-
   // TOGGLE LIKE
   toggleLike(postId: number): void {
     const isLiked = this.isPostLiked(postId);

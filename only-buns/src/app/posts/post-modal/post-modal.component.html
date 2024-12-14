@@ -16,7 +16,21 @@
     </div>
     <div class="modal-actions">
       <span class="likes">{{ post.likes }} likes</span>
-      <button class="add-comment-button" (click)="addComment()">Add Comment</button>
+      <div class="modal-comments">
+        <div class="comment" *ngFor="let comment of post.comments">
+          <span class="comment-username">{{ comment.username }}</span>: {{ comment.text }}
+        </div>
+      </div>
+      <div class="modal-add-comment">
+        <input
+          type="text"
+          #commentInput
+          placeholder="Add a comment..."
+          class="comment-input"
+        />
+        <button (click)="submitComment(post.id, commentInput)">Post</button>
+      </div>
+      
     </div>
   </div>
 </div>

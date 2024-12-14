@@ -4,5 +4,5 @@ export interface Comment{
     createdTime: string;
     userId: number;
     postId: number;
-    userName?: string;
+    username?: string;
 }

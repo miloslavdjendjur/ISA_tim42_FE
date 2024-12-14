@@ -1,8 +1,10 @@
 <div class="post-container" *ngFor="let post of posts; let isLast = last">
+  <!-- Header -->
   <div class="post-header">
-    <img [src]="post.imagePath" alt="Profile Image" class="profile-image" />
-    <span class="username">{{ post.username }}</span>
-    
+    <div class="username-and-picture">
+      <img [src]="post.imagePath" alt="Profile Image" class="profile-image" />
+      <p class="username">{{ post.username }}</p>
+    </div>
     <div class="dropdown-container" style="position: relative;">
       <i class="fa fa-ellipsis-h kebab-menu" (click)="toggleDropdown(post.id)" aria-hidden="true"></i>
   
@@ -16,17 +18,18 @@
     </div>
   </div>
   
-
+  <!-- Image -->
   <div class="post-image">
     <img [src]="post.imagePath" alt="Post Image" />
   </div>
 
+  <!-- Content (actions, caption, like count etc) -->
   <div class="post-content">
     <div class="post-actions">
       <button class="interaction-button" (click)="toggleLike(post.id)">
         <i class="fa fa-heart" [ngClass]="{'red': isPostLiked(post.id), 'regular': !isPostLiked(post.id)}" aria-hidden="true"></i>
       </button>
-      <button class="interaction-button">
+      <button class="interaction-button" (click)="openModal(post)">
         <i class="fa fa-comment regular" aria-hidden="true"></i>
       </button>
     </div>
