@@ -18,6 +18,7 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MapComponent } from './layout/map/map.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
 import { PostModalComponent } from './posts/post-modal/post-modal.component';
+import { ShowAllUsersComponent } from './users/show-all-users/show-all-users.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { PostModalComponent } from './posts/post-modal/post-modal.component';
     UsersShowComponent,
     MapComponent,
     UserProfileComponent,
-    PostModalComponent
+    PostModalComponent,
+    ShowAllUsersComponent
   ],
   imports: [
     BrowserModule,

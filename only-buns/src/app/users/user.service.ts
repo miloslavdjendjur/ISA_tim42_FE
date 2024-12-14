@@ -16,6 +16,9 @@ export class UserService {
   getAllUsers(adminId : number) : Observable<User[]>{
     return this.http.get<User[]>(this.apiUrl + "/all/" + adminId);
   }
+  followUser(userToFollow: User,userThatFollows : number) : Observable<User>{
+    return this.http.put<User>(this.apiUrl + "/followUser/" + userThatFollows,userToFollow);
+  }
   filterUsers(adminId: number, name?: string, surname?: string, email?: string, minPosts?: number, maxPosts?: number): Observable<User[]> {
     const filterCriteria = {
         adminId: adminId,
