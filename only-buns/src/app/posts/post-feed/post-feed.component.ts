@@ -154,17 +154,14 @@ export class PostFeedComponent implements OnInit {
   toggleFollowUser(userIdToFollow: number): void {
     if (this.userId !== null) {
       this.userService.followUserById(userIdToFollow, this.userId).subscribe({
-        next: () => {
-          // Update the UI: Dynamically toggle the follow state
+        next: (response) => {
           this.posts = this.posts.map(post => {
             if (post.userId === userIdToFollow) {
-              this.toggleDropdown(post.id);
               return {
                 ...post,
-                isFollowedByCurrentUser: !this.isUserFollowed(userIdToFollow),
+                isFollowedByCurrentUser: !post.isFollowedByCurrentUser, // Invert the state directly
               };
             }
-            this.toggleDropdown(post.id);
             return post;
           });
           console.log(`Toggled follow status for user with ID: ${userIdToFollow}`);
@@ -176,8 +173,8 @@ export class PostFeedComponent implements OnInit {
     } else {
       console.error('User ID is null; cannot follow/unfollow.');
     }
-    
   }
+  
   
   isUserFollowed(userId: number): boolean {
     return this.posts.some(post => post.userId === userId && post.isFollowedByCurrentUser);

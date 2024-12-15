@@ -13,7 +13,7 @@
       <!-- Dropdown Menu -->
       <div class="dropdown-menu" *ngIf="showDropdown[post.id]">
         <button *ngIf="userId !== post.userId" class="dropdown-item" (click)="toggleFollowUser(post.userId)">
-          {{ post.isFollowedByCurrentUser ? 'Follow' : 'Unfollow' }}
+          {{ post.isFollowedByCurrentUser ? 'Unfollow' : 'Follow' }}  <!-- Ovo ne radi baš najbolje. Ne piše dobar text uvek.-->
         </button>            
         <button *ngIf="userId === post.userId" class="dropdown-item" (click)="editPost(post.id)">Edit</button>
         <button *ngIf="userId === post.userId" class="dropdown-item" (click)="deletePost(post.id)">Delete</button>
