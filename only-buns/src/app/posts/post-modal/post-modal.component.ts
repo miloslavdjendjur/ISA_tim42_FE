@@ -103,6 +103,8 @@ export class PostModalComponent {
               this.errorMessage = "You must follow the post's owner to comment.";
             } else if (err.error?.message === "You can only comment 60 times per hour.") {
               this.errorMessage = "You can only comment 60 times per hour.";
+            } else if (err.error?.message === "You can only comment 5 times per minute."){
+              this.errorMessage = "You can only comment 5 times per minute.";
             } else {
               this.errorMessage = "Forbidden action.";
             }
